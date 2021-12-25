@@ -1,11 +1,7 @@
 from os import pardir
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-import json
 from pprint import pprint
-import time
-import pymongo
-from pymongo import MongoClient
 
 from classes.device import Device
 from classes.ticket import Ticket
@@ -17,17 +13,11 @@ app = Flask(__name__)
 api = Api(app)
 
 
-# use this to make a ticket with the below information. add notes and parts later.
-class CreateNewTicket(Resource): # called to  create new ticket with device details as arguments. returns ticket number.
+class CreateNewTicket(Resource): # called to create new ticket with device details as arguments. returns ticket number.
     def post(self):
         args = classes.parser.parseThis(reqparse.RequestParser)
-
         device = Device.makeNew(args)
-
-        ticket = Ticket()
-        ticket.device = device.__dict__
-        # ticket.creationDate = time.time #find a different way to keep track of date, since Mongo doesn't like this way.
-        ticket.ticketNumber = classes.db.nextNumber()
+        ticket = Ticket.new(device)
         try:
             classes.db.persistTicket(ticket)
         except:
