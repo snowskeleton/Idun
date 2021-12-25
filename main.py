@@ -35,9 +35,6 @@ class CreateNewTicket(Resource): # called to  create new ticket with device deta
 
         return ticket.ticketNumber, 200
 
-    def get(self):  # this will not have a GET request.
-        return 204
-
 
 class AddNewCustomer(Resource):
     # TODO: make this function check if the customer already exists rather than just blindly adding whatever we're told.
