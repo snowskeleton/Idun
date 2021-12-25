@@ -22,20 +22,16 @@ class CreateNewTicket(Resource): # called to  create new ticket with device deta
     def post(self):
         args = classes.parser.parseThis(reqparse.RequestParser)
 
-        device = Device()  # configure device for later adding to ticket.
-        device.serialNumber = args['serialNumber']
-        device.modelNumber = args['modelNumber']
-        device.assetTag = args['assetTag']
+        device = Device.makeNew(args)
 
         ticket = Ticket()
         ticket.device = device.__dict__
         # ticket.creationDate = time.time #find a different way to keep track of date, since Mongo doesn't like this way.
         ticket.ticketNumber = classes.db.nextNumber()
-        classes.db.persistTicket(ticket)
-        # try:
-        #     classes.db.persistTicket(ticket)
-        # except:
-        #     return "Couldn't create ticket :(", 500
+        try:
+            classes.db.persistTicket(ticket)
+        except:
+            return "Something went wrong while saving the ticket. Please try again.", 500
 
         return ticket.ticketNumber, 200
 

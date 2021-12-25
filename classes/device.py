@@ -1,8 +1,6 @@
 from classes.notes import Notes
 from classes.parts import Parts
 
-import json
-
 
 class Device:
     serialNumber = str
@@ -13,3 +11,12 @@ class Device:
     serviceNotes = [Notes]
     partsReplaced = [Parts]
     customer = str
+
+
+    def makeNew(args):
+        device = Device()
+        device.serialNumber = args['serialNumber']
+        device.modelNumber = args['modelNumber']
+        device.assetTag = args['assetTag']
+
+        return device
