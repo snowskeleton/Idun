@@ -9,5 +9,4 @@ def parseThis(thing):
     parser.add_argument('assetTag', required=False, type=str)
     parser.add_argument('customer', required=False, type=str)
     args = parser.parse_args()
-    print(args)
     return args
