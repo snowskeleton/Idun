@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+from pymongo import MongoClient, collation
 
 cluster = MongoClient(
     'mongodb+srv://snow:SH0zdIAD9scRU1if@cluster0.7luyp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
@@ -19,3 +19,9 @@ def nextNumber(): #returns an integer equal to n+1, where n is the previous tick
 
 def persistTicket(ticket):
     db['tickets'].insert_one(ticket.__dict__)
+
+
+def fetchTicket(num):
+    collection = db['tickets']
+    ticket = collection.find_one({"ticketNumber": num})
+    return ticket
