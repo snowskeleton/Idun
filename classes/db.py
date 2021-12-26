@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+
 cluster = MongoClient(
     'mongodb+srv://snow:SH0zdIAD9scRU1if@cluster0.7luyp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
 db = cluster["FixMe"]
@@ -25,3 +26,8 @@ def fetchTicket(num):
     collection = db['tickets']
     ticket = collection.find_one({"ticketNumber": num})
     return ticket
+
+
+def addParts(ticket, parts):
+    db['tickets'].update_one({'ticketNumber': ticket.ticketNumber}, {"$addToSet": {parts}})
+    return 200

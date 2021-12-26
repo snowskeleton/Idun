@@ -30,8 +30,11 @@ class CreateNewTicket(Resource): # called to create new ticket with device detai
 class AddPartsToTicket(Resource):
     def post(self):
         args = Parser.partsParse(reqparse.RequestParser)
-        ticket = classes.db.fetchTicket(args['ticket'])
+        ticket = classes.db.fetchTicket(args['ticket']) # fetch ticket by number
+        ticket = classes.db.addParts(ticket=ticket, parts=args['parts']) #this accepts a Ticket object but parts are passed through HTTP Post? Seems fishy....... TODO: investigate
+        ticket.partsNeeded.append(args['parts'])
         return json.dumps(ticket, default=str), 200
+        FIX ME
         
 
 class AddNewCustomer(Resource):
