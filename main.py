@@ -1,8 +1,10 @@
-from os import pardir
+from os import pardir, rename
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from pprint import pprint
 import json
+from munch import Munch
+import collections
 
 from classes.device import Device
 from classes.ticket import Ticket
@@ -12,7 +14,17 @@ import classes.db
 
 app = Flask(__name__)
 api = Api(app)
+from collections import namedtuple
 
+def convert(obj):
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            obj[key] = convert(value) 
+        return namedtuple('GenericDict', obj.keys(),rename=True)(**obj)
+    elif isinstance(obj, list):
+        return [convert(item) for item in obj]
+    else:
+        return obj
 
 class CreateNewTicket(Resource): # called to create new ticket with device details as arguments. returns ticket number.
     def post(self):
@@ -31,10 +43,12 @@ class AddPartsToTicket(Resource):
     def post(self):
         args = Parser.partsParse(reqparse.RequestParser)
         ticket = classes.db.fetchTicket(args['ticket']) # fetch ticket by number
+        # ticket = Ticket.gimmeRealTicket(ticket)
+        ticket = convert(ticket)
+        print(ticket)
         ticket = classes.db.addParts(ticket=ticket, parts=args['parts']) #this accepts a Ticket object but parts are passed through HTTP Post? Seems fishy....... TODO: investigate
         ticket.partsNeeded.append(args['parts'])
         return json.dumps(ticket, default=str), 200
-        FIX ME
         
 
 class AddNewCustomer(Resource):

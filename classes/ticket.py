@@ -2,8 +2,12 @@ from datetime import datetime
 from classes.notes import Notes
 from classes.device import Device
 # from classes.parts import Parts
-import classes.db
+# from munch import Munch
 
+import classes.db
+from dataclasses import dataclass
+
+@dataclass
 
 
 class Ticket:
@@ -26,3 +30,8 @@ class Ticket:
         ticket.creationDate = datetime.now().strftime("%Y%m%d, %H:%M:%S")
         ticket.ticketNumber = classes.db.nextNumber()
         return ticket
+    
+    # def gimmeRealTicket(ticket):
+    #     value =  Munch.fromDict(ticket)
+    #     print(value)
+    #     return value

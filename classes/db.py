@@ -4,6 +4,7 @@ from pymongo import MongoClient
 cluster = MongoClient(
     'mongodb+srv://snow:SH0zdIAD9scRU1if@cluster0.7luyp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
 db = cluster["FixMe"]
+tickets = db['tickets']
 
 
 def nextNumber(): #returns an integer equal to n+1, where n is the previous ticket number issued.
@@ -29,5 +30,6 @@ def fetchTicket(num):
 
 
 def addParts(ticket, parts):
-    db['tickets'].update_one({'ticketNumber': ticket.ticketNumber}, {"$addToSet": {parts}})
+    # print(ticket, parts)
+    tickets.update_one({'ticketNumber': ticket.ticketNumber}, {"$addToSet": {parts}})
     return 200
