@@ -2,7 +2,7 @@ from os import pardir
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from pprint import pprint
-import simplejson as json
+import json
 
 from classes.device import Device
 from classes.ticket import Ticket
