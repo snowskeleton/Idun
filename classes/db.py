@@ -1,4 +1,4 @@
-from pymongo import MongoClient, collation
+from pymongo import MongoClient
 
 cluster = MongoClient(
     'mongodb+srv://snow:SH0zdIAD9scRU1if@cluster0.7luyp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
