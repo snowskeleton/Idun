@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 
 cluster = MongoClient(
-    'mongodb+srv://snow:SH0zdIAD9scRU1if@cluster0.7luyp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+    'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000')
 db = cluster["FixMe"]
 tickets = db['tickets']
 

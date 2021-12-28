@@ -1,24 +1,32 @@
 from datetime import datetime
 from classes.notes import Notes
-from classes.device import Device
-# from classes.parts import Parts
-# from munch import Munch
 
 import classes.db
-from dataclasses import dataclass
+# from dataclasses import dataclass
 
-@dataclass
+# @dataclass
 
 
 class Ticket:
-    isCompletedOverride = bool
-    ticketNumber = int
-    creationDate = str
-    notes = [Notes]
-    device = Device
-    partsNeeded = {}
-    partsUsed = {}
-    partsOrdered = {}
+    # _id: int
+    isCompletedOverride: bool
+    ticketNumber: int
+    # creationDate = str
+    customer: str
+    # notes = [Notes]
+    serialNumber: str
+    modelNumber: str
+    assetTag: str
+    # parts = {}
+
+    def __init__(self, args) -> None:
+        # self._id = classes.db.nextNumber()
+        self.isCompletedOverride = False
+        self.ticketNumber = classes.db.nextNumber()
+        self.serialNumber = args['serialNumber']
+        self.modelNumber = args['modelNumber']
+        self.assetTag = args['assetTag']
+
 
     #linkedTickets = [Ticket]
     def hasChanged():
@@ -26,7 +34,6 @@ class Ticket:
 
     def new(device):
         ticket = Ticket()
-        ticket.device = device.__dict__
         ticket.creationDate = datetime.now().strftime("%Y%m%d, %H:%M:%S")
         ticket.ticketNumber = classes.db.nextNumber()
         return ticket

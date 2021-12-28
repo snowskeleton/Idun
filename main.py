@@ -1,12 +1,10 @@
 from os import pardir, rename
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from pprint import pprint
 import json
-from munch import Munch
-import collections
 
-from classes.device import Device
+# from classes.device import Device
 from classes.ticket import Ticket
 from classes.parser import Parser
 import classes.db
@@ -14,29 +12,27 @@ import classes.db
 
 app = Flask(__name__)
 api = Api(app)
-from collections import namedtuple
+# from collections import namedtuple
 
-def convert(obj):
-    if isinstance(obj, dict):
-        for key, value in obj.items():
-            obj[key] = convert(value) 
-        return namedtuple('GenericDict', obj.keys(),rename=True)(**obj)
-    elif isinstance(obj, list):
-        return [convert(item) for item in obj]
-    else:
-        return obj
 
 class CreateNewTicket(Resource): # called to create new ticket with device details as arguments. returns ticket number.
     def post(self):
         args = Parser.parseThis(reqparse.RequestParser)
-        device = Device.makeNew(args)
-        ticket = Ticket.new(device)
+        ticket = Ticket(args)
         try:
             classes.db.persistTicket(ticket)
         except:
             return "Something went wrong while saving the ticket. Please try again.", 500
 
         return ticket.ticketNumber, 200
+
+
+class FetchTicketInfo(Resource):
+    def get(self):
+        body = request.json
+        ticket = classes.db.fetchTicket(body['ticketNumber'])
+        return json.dumps(ticket, default=str)
+
 
 
 class AddPartsToTicket(Resource):
@@ -115,6 +111,7 @@ class AddUser(Resource):
 api.add_resource(CreateNewTicket, '/api/createNewTicket')
 api.add_resource(AddNewCustomer, '/api/addNewCustomer')
 api.add_resource(AddPartsToTicket, '/api/addPartsToTicket')
+api.add_resource(FetchTicketInfo, '/api/fetchTicketInfo')
 
 
 if __name__ == "__main__":
