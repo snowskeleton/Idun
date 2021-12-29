@@ -1,8 +1,5 @@
-# from os import pardir, rename
-# from classes.parser import Parser
-# from pprint import pprint
 from flask import Flask, request
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, Api
 import json
 
 from classes.ticket import Ticket
