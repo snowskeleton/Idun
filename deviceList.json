@@ -1,0 +1,106 @@
+{
+	"model": "Dell 3100 Touch",
+	"parts": [
+		{
+			"name": "Antenna Cable",
+			"cost": 10.99
+		},
+		{
+			"name": "Battery",
+			"cost": 19.99
+		},
+		{
+			"name": "Battery Cable",
+			"cost": 9.99
+		},
+		{
+			"name": "Bottom Case",
+			"cost": 10.99
+		},
+		{
+			"name": "Camera/Mic",
+			"cost": 10.99
+		},
+		{
+			"name": "DC Jack",
+			"cost": 10.99
+		},
+		{
+			"name": "Daughterboard",
+			"cost": 10.99
+		},
+		{
+			"name": "Hinge (left)",
+			"cost": 10.99
+		},
+		{
+			"name": "Hinge (right)",
+			"cost": 10.99
+		},
+		{
+			"name": "Hinge Cover",
+			"cost": 10.99
+		},
+		{
+			"name": "Keyboard",
+			"cost": 10.99
+		},
+		{
+			"name": "LCD (Non-Touch)",
+			"cost": 10.99
+		},
+		{
+			"name": "LCD (Touch)",
+			"cost": 10.99
+		},
+		{
+			"name": "LCD Bezel",
+			"cost": 10.99
+		},
+		{
+			"name": "LVDS Cable",
+			"cost": 10.99
+		},
+		{
+			"name": "Motherboard",
+			"cost": 10.99
+		},
+		{
+			"name": "NDF",
+			"cost": 10.99
+		},
+		{
+			"name": "Other",
+			"cost": 10.99
+		},
+		{
+			"name": "Palmrest",
+			"cost": 10.99
+		},
+		{
+			"name": "Screw set",
+			"cost": 10.99
+		},
+		{
+			"name": "Speakers",
+			"cost": 10.99
+		},
+		{
+			"name": "Top Cover",
+			"cost": 10.99
+		},
+		{
+			"name": "Touchpad Cable",
+			"cost": 10.99
+		},
+		{
+			"name": "Touchpad",
+			"cost": 10.99
+		},
+		{
+			"name": "Wifi Card",
+			"cost": 10.99
+		}
+	]
+
+}
