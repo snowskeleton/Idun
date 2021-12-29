@@ -9,8 +9,8 @@ class Ticket:
     modelNumber: str
     assetTag: str
     customer: str
-    # parts: list
-    # notes: list
+    parts: list
+    notes: list
 
     def __init__(self, body):
         self._id = classes.db.nextNumber()
@@ -18,7 +18,7 @@ class Ticket:
         self.serialNumber = body['serialNumber']
         self.modelNumber = body['modelNumber']
         self.assetTag = body['assetTag']
-        # self.notes = [{}]
+        self.notes = []
         self.parts = []
 
     def completed(self) -> bool:

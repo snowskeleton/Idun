@@ -1,11 +1,11 @@
-from os import pardir, rename
+# from os import pardir, rename
+# from classes.parser import Parser
+# from pprint import pprint
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
-from pprint import pprint
 import json
 
 from classes.ticket import Ticket
-from classes.parser import Parser
 import classes.db
 
 
@@ -28,8 +28,6 @@ class CreateNewTicket(Resource):
 class FetchTicketInfo(Resource):
     def get(self):
         body = request.json
-        print(body['_id'])
-        print("Look at me!")
         ticket = classes.db.fetchTicket(body['_id'])
         return json.dumps(ticket, default=str)
 
@@ -45,10 +43,11 @@ class AddPartsToTicket(Resource):
         
 class AddNoteToTicket(Resource):
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument("TicketNumber", required=True, type=str)
-        parser.add_argument("Note", required=True, type=str)
-
+        try:
+            classes.db.addNotes(request.json)
+        except:
+            return "Unable to add notes to ticket", 500
+        return 200
 
 
 api.add_resource(CreateNewTicket, '/api/createNewTicket')

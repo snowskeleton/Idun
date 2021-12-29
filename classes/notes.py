@@ -1,8 +1,8 @@
-import time
+from datetime import datetime
 from classes.user import User
 
 
 class Notes:
-    timeStamp = time.time
+    timeStamp = datetime.now().strftime("%Y%m%d, %H:%M")
     note = str
-    userWhoLeftNote = User
+    user = User

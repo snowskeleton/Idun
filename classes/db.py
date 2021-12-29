@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import classes.parts
 
 
 cluster = MongoClient(
@@ -30,4 +31,10 @@ def fetchTicket(num):
 
 
 def addParts(body):
-    db['tickets'].update_one({'_id': body['_id']}, {"$push": {"parts": body['parts']}})
+    for part in body['parts']:
+        _part = classes.parts.Parts(part)
+        db['tickets'].update_one(
+            {'_id': body['_id']},
+            {"$push": {"parts": _part.__dict__}}
+            )
+    # db['tickets'].update_one({'_id': body['_id']}, {"$push": {"parts": body['parts']}})

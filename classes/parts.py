@@ -5,8 +5,8 @@ class Parts:
     ordered: bool
     replaced: bool
 
-    def __init__(self, args):
-        self.name = args['name']
-        self.cost = args['cost']
+    def __init__(self, dict):
+        self.name = dict['name']
+        self.cost = dict['cost']
         self.ordered = False
         self.replaced = False
