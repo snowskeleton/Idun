@@ -21,15 +21,13 @@ def nextNumber(): #returns an integer equal to n+1, where n is the previous tick
 
 def persistTicket(ticket):
     db['tickets'].insert_one(ticket.__dict__)
+    print(ticket.__dict__)
 
 
 def fetchTicket(num):
-    collection = db['tickets']
-    ticket = collection.find_one({"ticketNumber": num})
+    ticket = tickets.find_one({"_id": num})
     return ticket
 
 
-def addParts(ticket, parts):
-    # print(ticket, parts)
-    tickets.update_one({'ticketNumber': ticket.ticketNumber}, {"$addToSet": {parts}})
-    return 200
+def addParts(body):
+    db['tickets'].update_one({'_id': body['_id']}, {"$push": {"parts": body['parts']}})

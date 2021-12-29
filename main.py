@@ -4,7 +4,6 @@ from flask_restful import Resource, Api, reqparse
 from pprint import pprint
 import json
 
-# from classes.device import Device
 from classes.ticket import Ticket
 from classes.parser import Parser
 import classes.db
@@ -12,51 +11,36 @@ import classes.db
 
 app = Flask(__name__)
 api = Api(app)
-# from collections import namedtuple
 
-
-class CreateNewTicket(Resource): # called to create new ticket with device details as arguments. returns ticket number.
+ # called to create new ticket with device details as arguments. returns ticket number.
+class CreateNewTicket(Resource):
     def post(self):
-        args = Parser.parseThis(reqparse.RequestParser)
-        ticket = Ticket(args)
+        body = request.json
+        ticket = Ticket(body)
         try:
             classes.db.persistTicket(ticket)
         except:
             return "Something went wrong while saving the ticket. Please try again.", 500
 
-        return ticket.ticketNumber, 200
+        return json.dumps(ticket._id, default=str), 200
 
-
+# accepts ticket ID. returns ticket as json dictionary
 class FetchTicketInfo(Resource):
     def get(self):
         body = request.json
-        ticket = classes.db.fetchTicket(body['ticketNumber'])
+        print(body['_id'])
+        print("Look at me!")
+        ticket = classes.db.fetchTicket(body['_id'])
         return json.dumps(ticket, default=str)
 
 
-
+# accepts ticket ID and list of parts objects. returns nothing.
 class AddPartsToTicket(Resource):
     def post(self):
-        args = Parser.partsParse(reqparse.RequestParser)
-        ticket = classes.db.fetchTicket(args['ticket']) # fetch ticket by number
-        # ticket = Ticket.gimmeRealTicket(ticket)
-        ticket = convert(ticket)
-        print(ticket)
-        ticket = classes.db.addParts(ticket=ticket, parts=args['parts']) #this accepts a Ticket object but parts are passed through HTTP Post? Seems fishy....... TODO: investigate
-        ticket.partsNeeded.append(args['parts'])
-        return json.dumps(ticket, default=str), 200
-        
-
-class AddNewCustomer(Resource):
-    # TODO: make this function check if the customer already exists rather than just blindly adding whatever we're told.
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('Name', required=True, type=str)
-        args = parser.parse_args()
-        customer = args['Name']
-        # with open("./dta/customerList", "a") as infile:
-            # json.dump(customer, infile)
-
+        try:
+            classes.db.addParts(request.json)
+        except:
+            return "Unable to add parts to ticket", 500
         return 200
         
 class AddNoteToTicket(Resource):
@@ -109,7 +93,6 @@ class AddUser(Resource):
 
 
 api.add_resource(CreateNewTicket, '/api/createNewTicket')
-api.add_resource(AddNewCustomer, '/api/addNewCustomer')
 api.add_resource(AddPartsToTicket, '/api/addPartsToTicket')
 api.add_resource(FetchTicketInfo, '/api/fetchTicketInfo')
 

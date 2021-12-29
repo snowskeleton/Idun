@@ -15,6 +15,6 @@ class Parser():
 
     def partsParse(thing):
         parser = reqparse.RequestParser()
+        parser.add_argument('_id', required=True, type=int)
         parser.add_argument('parts', required=True, type=list)
-        parser.add_argument('ticket', required=True, type=int)
         return parser.parse_args()
