@@ -22,5 +22,4 @@ class Ticket:
         self.parts = []
 
     def completed(self) -> bool:
-        return False
-        pass
+        return False # TODO fix this later

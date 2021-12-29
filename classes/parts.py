@@ -1,4 +1,3 @@
-
 class Parts:
     name: str
     cost: float

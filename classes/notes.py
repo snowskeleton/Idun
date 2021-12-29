@@ -3,6 +3,11 @@ from classes.user import User
 
 
 class Notes:
-    timeStamp = datetime.now().strftime("%Y%m%d, %H:%M")
-    note = str
-    user = User
+    timeStamp: str
+    note: str
+    user: User
+
+    def __init__(self, stats):
+        self.note = stats['note']
+        self.user = stats['user']
+        self.timeStamp = datetime.now().strftime("%Y%m%d, %H:%M")

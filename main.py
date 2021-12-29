@@ -21,7 +21,8 @@ class CreateNewTicket(Resource):
 
         return json.dumps(ticket._id, default=str), 200
 
-# accepts ticket ID. returns ticket as json dictionary
+
+# accepts ticket ID. returns ticket as json
 class FetchTicketInfo(Resource):
     def get(self):
         body = request.json
@@ -29,7 +30,7 @@ class FetchTicketInfo(Resource):
         return json.dumps(ticket, default=str)
 
 
-# accepts ticket ID and list of parts objects. returns nothing.
+# accepts ticket ID and list of part objects. returns nothing.
 class AddPartsToTicket(Resource):
     def post(self):
         try:
@@ -37,18 +38,20 @@ class AddPartsToTicket(Resource):
         except:
             return "Unable to add parts to ticket", 500
         return 200
-        
+
+# accepts ticket ID and note. returns nothing
 class AddNoteToTicket(Resource):
     def post(self):
         try:
             classes.db.addNotes(request.json)
         except:
-            return "Unable to add notes to ticket", 500
+            return "Unable to add note to ticket", 500
         return 200
 
 
 api.add_resource(CreateNewTicket, '/api/createNewTicket')
 api.add_resource(AddPartsToTicket, '/api/addPartsToTicket')
+api.add_resource(AddNoteToTicket, '/api/addNoteToTicket')
 api.add_resource(FetchTicketInfo, '/api/fetchTicketInfo')
 
 

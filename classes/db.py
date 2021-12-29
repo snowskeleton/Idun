@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import classes.parts
+import classes.notes
 
 
 cluster = MongoClient(
@@ -8,7 +9,8 @@ db = cluster["FixMe"]
 tickets = db['tickets']
 
 
-def nextNumber(): #returns an integer equal to n+1, where n is the previous ticket number issued.
+# returns an integer equal to n+1, where n is the previous ticket number issued.
+def nextNumber():
     collection = db['nextNumber']
     nextNumber = collection.find_one({"_id": "sequence"})['nextNumber']
     try:
@@ -36,5 +38,12 @@ def addParts(body):
         db['tickets'].update_one(
             {'_id': body['_id']},
             {"$push": {"parts": _part.__dict__}}
-            )
-    # db['tickets'].update_one({'_id': body['_id']}, {"$push": {"parts": body['parts']}})
+        )
+
+
+def addNotes(body):
+    note = classes.notes.Notes(body)
+    db['tickets'].update_one(
+        {'_id': body['_id']},
+        {"$push": {"notes": note.__dict__}}
+    )
